@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Personal Expense Tracker helps you manage your daily spending and budget with ease. Track expenses, view analytics, and stay on top of your finances.">
+    <title>Personal Expense Tracker</title>
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%22-2 -2 24 24%22><text y=%2218%22 font-size=%2218%22>💰</text></svg>">
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Chart.js is loaded with 'defer' to prevent render blocking -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+</head>
+<body>
+    <!-- Preloader -->
+    <div id="preloader" class="preloader">
+        <div class="spinner"></div>
+        <p>Loading Expense Tracker...</p>
+    </div>
+
+    <div class="container">
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <div class="nav-brand">
+                <h1>💰 Expense Tracker</h1>
+            </div>
+            <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span class="hamburger"></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#expense-form-section" class="nav-link">Add Expense</a></li>
+                <li><a href="#analytics-section" class="nav-link">Analytics</a></li>
+                <li><a href="#expenses-list-section" class="nav-link">Expenses</a></li>
+            </ul>
+        </nav>
+
+        <!-- Header Section -->
+        <header class="header" id="home">
+            <div class="header-top">
+                <h1>Personal Expense Tracker</h1>
+                <div id="theme-toggle" class="theme-toggle" role="button" aria-label="Toggle theme" tabindex="0">
+                    <span class="sun">☀️</span>
+                    <span class="moon">🌙</span>
+                </div>
+            </div>
+            <p>Track your daily expenses and manage your budget</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Expense Input Form -->
+            <section class="expense-form-section" id="expense-form-section">
+                <h2>Add New Expense</h2>
+                <form id="expense-form" role="form" aria-label="Add new expense">
+                    <div class="form-group">
+                        <label for="expense-amount">Amount</label>
+                        <input 
+                            type="number" 
+                            id="expense-amount" 
+                            placeholder="Enter amount" 
+                            step="0.01" 
+                            min="0" 
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="expense-description">Description</label>
+                        <input 
+                            type="text" 
+                            id="expense-description" 
+                            placeholder="What did you spend on?" 
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="expense-category">Category</label>
+                        <select id="expense-category" required>
+                            <option value="" disabled selected>Select Category</option>
+                            <option value="food">🍕 Food & Dining</option>
+                            <option value="transport">🚗 Transportation</option>
+                            <option value="entertainment">🎬 Entertainment</option>
+                            <option value="shopping">🛍️ Shopping</option>
+                            <option value="bills">💡 Bills & Utilities</option>
+                            <option value="health">🏥 Healthcare</option>
+                            <option value="education">📚 Education</option>
+                            <option value="other">📦 Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="expense-date">Date</label>
+                        <input 
+                            type="date" 
+                            id="expense-date" 
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="currency-select">Currency</label>
+                        <select id="currency-select">
+                            <option value="₹">INR (₹)</option>
+                            <option value="$">USD ($)</option>
+                            <option value="€">EUR (€)</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Add Expense</button>
+                </form>
+            </section>
+
+            <!-- Summary Section -->
+            <section class="summary-section">
+                <div class="summary-card">
+                    <h3>Total Expenses</h3>
+                    <div class="total-amount" id="total-amount">₹0.00</div>
+                    <div class="expense-count">
+                        <span id="expense-count">0</span> expenses recorded
+                    </div>
+                    <div class="budget-info">
+                        <input type="number" id="budget-input" placeholder="Set monthly budget" step="0.01" min="0">
+                        <button class="btn btn-primary" id="set-budget-btn">Set Budget</button>
+                        <p id="budget-status">No budget set</p>
+                    </div>
+                    <!-- Motivational Quote moved here -->
+                    <div class="quote-container" id="motivational-quote-container">
+                        <p id="motivational-quote"></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Filter Section -->
+            <section class="filter-section">
+                <h3>Filter Expenses</h3>
+                <div class="filter-controls">
+                    <input type="text" id="search-expenses" placeholder="Search expenses..." class="form-group">
+                    <select id="filter-category" aria-label="Filter expenses by category">
+                        <option value="">All Categories</option>
+                        <option value="food">🍕 Food & Dining</option>
+                        <option value="transport">🚗 Transportation</option>
+                        <option value="entertainment">🎬 Entertainment</option>
+                        <option value="shopping">🛍️ Shopping</option>
+                        <option value="bills">💡 Bills & Utilities</option>
+                        <option value="health">🏥 Healthcare</option>
+                        <option value="education">📚 Education</option>
+                        <option value="other">📦 Other</option>
+                    </select>
+                    <button id="clear-all-btn" class="btn btn-danger">Clear All Expenses</button>
+                </div>
+            </section>
+
+            <!-- Analytics Section -->
+            <section class="analytics-section" id="analytics-section">
+                <h3>📊 Spending Analytics</h3>
+                <div class="analytics-tabs" role="tablist">
+                    <button class="tab-btn active" data-period="last7days" role="tab" aria-selected="true" aria-controls="analytics-panel">Last 7 Days</button>
+                    <button class="tab-btn" data-period="last30days" role="tab" aria-selected="false" aria-controls="analytics-panel">Last 30 Days</button>
+                    <button class="tab-btn" data-period="alltime" role="tab" aria-selected="false" aria-controls="analytics-panel">All Time</button>
+                </div>
+                <div class="analytics-content">
+                    <div class="analytics-cards">
+                        <div class="analytics-card">
+                            <h4>Top Category</h4>
+                            <div class="category-info" id="top-category">
+                                <span class="category-name">No data</span>
+                                <span class="category-amount">₹0</span>
+                            </div>
+                        </div>
+                        <div class="analytics-card">
+                            <h4>Average Daily</h4>
+                            <div class="daily-avg" id="daily-average">₹0</div>
+                        </div>
+                        <div class="analytics-card">
+                            <h4>Total This Period</h4>
+                            <div class="period-total" id="period-total">₹0</div>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="expense-chart"></canvas>
+                        <div class="no-data-message" id="chart-no-data">No data available for this period</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Expenses List Section -->
+            <section class="expenses-list-section" id="expenses-list-section">
+                <h3>Your Expenses</h3>
+                <div id="expenses-list" class="expenses-list">
+                    <div class="no-expenses" id="no-expenses">
+                        <p>📝 No expenses recorded yet.</p>
+                        <p>Add your first expense above!</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>© 2025 Personal Expense Tracker. Built with ❤️ by <strong>Pavan Thrikoti Pottupalli</strong> for better financial management.</p>
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/pavan-thrikoti-pottupalli-330822254/" target="_blank" aria-label="LinkedIn Profile">
+                    <!-- Replaced LinkedIn SVG with a standard, reliable version -->
+                    <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path fill="white" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                    </svg>
+                </a>
+                <a href="https://github.com/pavanthrikoti" target="_blank" aria-label="GitHub Profile">
+                    <!-- Inline SVG for GitHub icon -->
+                    <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.6.111.819-.26.819-.578v-1.993c-3.335.727-4.037-1.616-4.037-1.616-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.835 2.809 1.305 3.492.998.108-.778.418-1.305.762-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.381 1.236-3.221-.124-.3-.535-1.524.118-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.046.138 3.003.404 2.294-1.552 3.302-1.23 3.302-1.23.653 1.653.242 2.876.118 3.176.772.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.817 1.105.817 2.228v3.293c0 .319.219.694.823.577C20.56 21.807 24 17.307 24 12 24 5.373 18.627 0 12 0z"/>
+                    </svg>
+                </a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Success/Error Messages -->
+    <div id="message" class="message hidden" aria-live="polite"></div>
+
+    <!-- Custom Confirmation Modal -->
+    <div id="custom-confirm-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <p id="modal-title"></p> <!-- Added id for aria-labelledby -->
+            <div class="modal-actions">
+                <button id="modal-confirm-btn" class="btn btn-danger">Confirm</button>
+                <button id="modal-cancel-btn" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/script.js" defer></script>
+</body>
+</html>
