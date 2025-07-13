@@ -227,7 +227,7 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 .header p {
-    color: var(--text-secondary); /* Uses theme variable */
+    color: #fff; /* Uses theme variable */
     font-size: clamp(1rem, 3vw, 1.125rem);
 }
 
