@@ -2,7 +2,7 @@
 
 Welcome to my **Personal Expense Tracker**, a sleek and robust web application designed to help you manage your finances effortlessly! Built with modern web technologies and optimized for performance and accessibility, this project showcases my skills as a software developer.
 
-Check it out live at: **[https://pers0nal-expense-tracker.vercel.app/](https://pers0nal-expense-tracker.vercel.app/)**.
+Check it out live at: **[https://personal-expense-tracker-free.vercel.app/](https://personal-expense-tracker-free.vercel.app/)**.
 
 ---
 
@@ -81,7 +81,7 @@ This project highlights a range of concepts and tools I’ve mastered, with a st
 
 ## Deployment
 
-This project is live at **[https://pers0nal-expense-tracker.vercel.app/](https://pers0nal-expense-tracker.vercel.app/)**, deployed using Vercel's powerful platform. The deployment process is streamlined through **Continuous Deployment (CD)** directly from the GitHub repository, ensuring that every code update is automatically built and deployed.
+This project is live at **[https://personal-expense-tracker-free.vercel.app/](https://personal-expense-tracker-free.vercel.app/)**, deployed using Vercel's powerful platform. The deployment process is streamlined through **Continuous Deployment (CD)** directly from the GitHub repository, ensuring that every code update is automatically built and deployed.
 
 ---
 
